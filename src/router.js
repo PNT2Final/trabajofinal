@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import AdminView from './views/AdminView.vue'
-import TurnosView from './views/TurnosView.vue'  // ✅ esta línea faltaba
+import TurnosView from './views/TurnosView.vue'
 
 const routes = [
   { path: '/', redirect: '/admin' },
