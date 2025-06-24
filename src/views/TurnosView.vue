@@ -3,7 +3,8 @@ import { ref, onMounted } from 'vue'
 import { getTurnos } from '../services/turnoService'
 import { inscribirUsuario } from '../services/inscripcionService'
 
-const usuarioId = 3
+const usuarioId = 6
+
 const turnos = ref([])
 
 onMounted(async () => {
