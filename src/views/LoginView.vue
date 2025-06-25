@@ -52,6 +52,8 @@ const handleLogin = async () => {
   padding: 2rem;
   text-align: center;
   color: #ffffff;
+
+  
 }
 
 input {
