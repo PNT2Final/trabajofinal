@@ -8,7 +8,7 @@ import { supabase } from '../supabase'
 
 async function eliminarTurno(id) {
  const { data, error } = await supabase
-    .from("usuarios")
+    .from("turnos")
     .delete()
     .eq("id", id)
     .select(); 
@@ -28,9 +28,15 @@ async function create(turno) {
 }
 
 async function getById(id) {
-  const { turnos, error } = await supabase.from('turnos').select("*").eq('id', id);
-  if(error) throw error;
-  return turnos
+  const { data: turno, error } = await supabase.from('turnos').select("*").eq('id', id).single();
+  
+  if (error) {
+    if (error.code === 'PGRST116') { 
+        throw new Error("Turno no encontrado.");
+    }
+    throw error;
+  }
+  return turno; 
 }
 
 async function updateById(id, datosNuevos) {

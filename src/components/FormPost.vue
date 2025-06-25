@@ -12,7 +12,7 @@ const turno = ref({
   fecha: '',
   hora: '',
   profesor: '',
-  cupo_max: null,
+  cupo_maximo: null,
   creado_por: userStore.user?.id || null
 })
 
@@ -43,7 +43,7 @@ const guardar = async () => {
       fecha: turno.value.fecha,
       hora: horaFormateada,
       profesor: turno.value.profesor,
-      cupo_max: turno.value.cupo_max
+      cupo_maximo: turno.value.cupo_maximo
     }
 
     if (esEdicion.value) {
@@ -88,7 +88,7 @@ const guardar = async () => {
 
       <div class="mb-3">
         <label class="form-label">Cupo máximo</label>
-        <input type="number" class="form-control" v-model="turno.cupo_max" required min="1" />
+        <input type="number" class="form-control" v-model.number="turno.cupo_maximo" required min="1" />
       </div>
 
       <button type="submit" class="btn btn-primary">
