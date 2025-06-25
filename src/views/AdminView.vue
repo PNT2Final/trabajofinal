@@ -1,14 +1,25 @@
 <script setup>
-import { ref, onMounted } from 'vue'
+import { ref, onMounted, onBeforeMount } from 'vue'
 import { getUsuarios } from '../services/usuarioService'
 import { getTurnos } from '../services/turnoService'
 import { getInscripciones } from '../services/inscripcionService'
+import { useRouter } from 'vue-router'
+import { useUserStore } from '../store/userStorage'
+
+const router = useRouter()
+const userStore = useUserStore()
 
 const tabActual = ref('usuarios')
-
 const usuarios = ref([])
 const turnos = ref([])
 const inscripciones = ref([])
+
+onBeforeMount(() => {
+  const user = userStore.user
+
+  if (!user) return router.replace('/login')
+  if (user.rol !== 'administrador') return router.replace('/denegado')
+})
 
 onMounted(async () => {
   usuarios.value = await getUsuarios()
@@ -16,6 +27,7 @@ onMounted(async () => {
   inscripciones.value = await getInscripciones()
 })
 </script>
+
 
 <template>
   <div class="container mt-4">
@@ -84,3 +96,4 @@ onMounted(async () => {
     </div>
   </div>
 </template>
+

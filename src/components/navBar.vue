@@ -1,17 +1,22 @@
 <script setup>
-import { ref } from 'vue'
+// Traemos al usuario real desde el store y su rol.
+import { useUserStore } from '../store/userStorage'
+import { useRouter, useRoute } from 'vue-router'
 
-// Temporal simulamos un usuario con rol
-// Después se reemplaza por: `import { useUserStore } from '../stores/userStore'`
-const user = ref({
-  nombre: 'Guada',
-  rol: 'usuario' // cambiar a 'administrador' para testear
-})
+const userStore = useUserStore()
+const user = userStore.user
+const router = useRouter()
+const route = useRoute()
+
+const logout = () => {
+  userStore.logout()
+  router.push('/login')
+}
 </script>
 
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
+  <nav class="navbar navbar-expand-lg">
+    <div class="container-fluid align-items-center contenidoNav">
       <router-link class="navbar-brand" to="/">PilApp</router-link>
 
       <button
@@ -25,19 +30,58 @@ const user = ref({
 
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav ms-auto">
+
           <!-- Solo para usuarios comunes -->
-          <li class="nav-item" v-if="user.rol === 'usuario'">
+          <li class="nav-item" v-if="user?.rol === 'usuario'">
             <router-link class="nav-link" to="/turnos">Turnos</router-link>
           </li>
 
           <!-- Solo para administradores -->
-          <li class="nav-item" v-if="user.rol === 'administrador'">
+          <li class="nav-item" v-if="user?.rol === 'administrador'">
             <router-link class="nav-link" to="/admin">Admin</router-link>
           </li>
+
+          <!-- Botón de logout (no se muestra en /login) -->
+          <li class="nav-item" v-if="route.path !== '/login'">
+            <button @click="logout" class="btn btn-outline-light ms-2">Cerrar sesión</button>
+          </li>
+
         </ul>
       </div>
     </div>
   </nav>
 </template>
 
+<style scoped>
+nav .nav-link {
+  color: pu;
+}
 
+
+nav{
+  background-color: var(--gris-claro);
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+}
+
+.navbar-brand {
+  margin: 0 1rem;
+  font-size: 1.5rem; 
+  align-items: center;
+  color: var(--violeta-principal);
+}
+
+.contenidoNav{
+  display: flex;
+  justify-content: space-between;
+  color: var(--violeta-principal);
+}
+
+li{
+  color: var(--violeta-principal);
+}
+
+
+
+</style>
