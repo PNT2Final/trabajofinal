@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted, onBeforeMount } from 'vue'
 import { getUsuarios } from '../services/usuarioService'
-import { getTurnos } from '../services/turnoService'
+import { getTurnos, eliminarTurno } from '../services/turnoService'
 import { getInscripciones } from '../services/inscripcionService'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '../store/userStorage'
@@ -26,6 +26,28 @@ onMounted(async () => {
   turnos.value = await getTurnos()
   inscripciones.value = await getInscripciones()
 })
+
+const eliminar = async (id) => {
+  if (confirm('¿Estás seguro de eliminar este turno?')) {
+    try {
+      await eliminarTurno(id)
+      turnos.value = turnos.value.filter(t => t.id !== id)
+      alert('🗑️ Turno eliminado correctamente')
+    } catch (e) {
+      alert('❌ Error al eliminar turno')
+      console.error(e)
+    }
+  }
+}
+
+
+async function editar(id) {
+   router.push(`/${id}/editar`);
+}
+
+async function nuevo() {
+   router.push(`/nuevo`);
+}
 </script>
 
 
@@ -70,12 +92,16 @@ onMounted(async () => {
           <tbody>
             <tr v-for="t in turnos" :key="t.id">
               <td>{{ t.fecha }}</td>
+              {{ console.log("turno ",t) }}
               <td>{{ t.hora }}</td>
               <td>{{ t.profesor }}</td>
-              <td>{{ t.cupo_max }}</td>
+              <td>{{ t.cupo_maximo }}</td>
+              <td><button class="btn" @click="editar(t.id)"> Editar</button> </td>
+              <td><button class="btn" @click="eliminar(t.id)"> Eliminar</button> </td>
             </tr>
           </tbody>
         </table>
+        <button class="btn" @click="nuevo()">Añadir una nueva sesion</button>
       </div>
 
       <div v-if="tabActual === 'inscripciones'">
