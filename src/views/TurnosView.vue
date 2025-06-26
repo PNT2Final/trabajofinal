@@ -2,8 +2,11 @@
 import { ref, onMounted } from 'vue'
 import { getTurnos } from '../services/turnoService'
 import { inscribirUsuario } from '../services/inscripcionService'
+import { useUserStore } from '../store/userStorage'
 
-const usuarioId = 3
+const userStore = useUserStore()
+const usuarioId = userStore.user.id
+
 const turnos = ref([])
 
 onMounted(async () => {
@@ -12,7 +15,7 @@ onMounted(async () => {
 
 const inscribirse = async (turnoId) => {
   const ok = await inscribirUsuario(usuarioId, turnoId)
-  if (ok) alert('✅ Inscripción exitosa')
+  if (ok) alert('Inscripción exitosa')
   else alert('Error al inscribirse')
 }
 </script>
