@@ -3,10 +3,8 @@ import { ref, onMounted } from 'vue'
 import { useUserStore } from '../store/userStorage'
 import { getTurnos } from '../services/turnoService'
 import { inscribirUsuario } from '../services/inscripcionService'
-import { useUserStore } from '../store/userStorage'
 
 const userStore = useUserStore()
-const usuarioId = userStore.user.id
 
 const turnos = ref([])
 const cargando = ref(true)
