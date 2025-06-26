@@ -5,6 +5,7 @@ import { getTurnos, eliminarTurno } from '../services/turnoService'
 import { getInscripciones } from '../services/inscripcionService'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '../store/userStorage'
+import { computed } from 'vue'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -40,13 +41,20 @@ const eliminar = async (id) => {
   }
 }
 
-function editar(id) {
+async function editar(id) {
   router.push(`/${id}/editar`)
 }
 
-function nuevo() {
+async function nuevo() {
   router.push(`/nuevo`)
 }
+
+
+const turnosFuturos = computed(() => {
+  const hoy = new Date().toISOString().split('T')[0] // formato YYYY-MM-DD
+  return turnos.value.filter(t => t.fecha >= hoy)
+})
+
 </script>
 
 <template>
@@ -90,7 +98,7 @@ function nuevo() {
             <tr><th>Fecha</th><th>Hora</th><th>Profesor</th><th>Cupo Máximo</th><th>Acciones</th></tr>
           </thead>
           <tbody>
-            <tr v-for="t in turnos" :key="t.id">
+            <tr v-for="t in turnosFuturos" :key="t.id">
               <td>{{ t.fecha }}</td>
               <td>{{ t.hora }}</td>
               <td>{{ t.profesor }}</td>
