@@ -3,6 +3,8 @@ import { ref, onMounted } from 'vue'
 import { useUserStore } from '../store/userStorage'
 import { getTurnos } from '../services/turnoService'
 import { inscribirUsuario } from '../services/inscripcionService'
+import { computed } from 'vue'
+
 
 const userStore = useUserStore()
 
@@ -44,6 +46,11 @@ const inscribirse = async (turnoId) => {
   }
 
 }
+
+const turnosFuturos = computed(() => {
+  const hoy = new Date().toISOString().split('T')[0] // formato YYYY-MM-DD
+  return turnos.value.filter(t => t.fecha >= hoy)
+})
 </script>
 
 <template>
@@ -63,7 +70,7 @@ const inscribirse = async (turnoId) => {
     <div class="d-flex flex-column gap-3" v-else>
       <div
         class="card flex-row align-items-center justify-content-between px-4 py-3 shadow-sm"
-        v-for="t in turnos"
+        v-for="t in turnosFuturos"
         :key="t.id"
       >
         <div class="d-flex align-items-center flex-grow-1">

@@ -40,6 +40,13 @@ onMounted(async () => {
 
 const guardar = async () => {
   try {
+    const hoy = new Date().toISOString().split('T')[0] // YYYY-MM-DD
+
+    if (turno.value.fecha < hoy) {
+      alert('❌ La fecha del turno no puede ser anterior a hoy.')
+      return
+    }
+
     const horaFormateada = turno.value.hora.length === 5
       ? turno.value.hora + ':00'
       : turno.value.hora
@@ -68,6 +75,7 @@ const guardar = async () => {
     console.error(e)
   }
 }
+
 </script>
 
 <template>
