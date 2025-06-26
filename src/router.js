@@ -5,7 +5,7 @@ import LoginView from './views/LoginView.vue'
 import { useUserStore } from './store/userStorage'
 import AccesoDenegado from './views/AccesoDenegado.vue'
 import NoSeEncontroElSitioView from './views/NoSeEncontroElSitioView.vue'
-
+import FormPost from './components/FormPost.vue'
 
 const routes = [
   { path: '/', redirect: '/login' },
@@ -13,6 +13,8 @@ const routes = [
   { path: '/admin', component: AdminView },
   { path: '/turnos', component: TurnosView },
   { path: '/denegado', component: AccesoDenegado },
+  { path: '/:id/editar', component: FormPost },
+  { path: '/nuevo', component: FormPost },
   //truquito ruta comodin que captura cualquier utl que no coincida con las anteriores
   { path: '/:pathMatch(.*)*', component: NoSeEncontroElSitioView }
 

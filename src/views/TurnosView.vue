@@ -1,5 +1,6 @@
 <script setup>
 import { ref, onMounted } from 'vue'
+import { useUserStore } from '../store/userStorage'
 import { getTurnos } from '../services/turnoService'
 import { inscribirUsuario } from '../services/inscripcionService'
 import { useUserStore } from '../store/userStorage'
@@ -8,40 +9,89 @@ const userStore = useUserStore()
 const usuarioId = userStore.user.id
 
 const turnos = ref([])
+const cargando = ref(true)
+const inscribiendoId = ref(null)
 
 onMounted(async () => {
-  turnos.value = await getTurnos()
+  try {
+    turnos.value = await getTurnos()
+  } catch (e) {
+    console.error('Error al cargar turnos', e)
+  } finally {
+    cargando.value = false
+  }
 })
 
 const inscribirse = async (turnoId) => {
-  const ok = await inscribirUsuario(usuarioId, turnoId)
-  if (ok) alert('Inscripción exitosa')
-  else alert('Error al inscribirse')
+  const userId = userStore.user?.id
+  if (!userId) {
+    alert('⚠️ Debés iniciar sesión para inscribirte.')
+    return
+  }
+
+  inscribiendoId.value = turnoId
+
+  try {
+    const ok = await inscribirUsuario(userId, turnoId)
+    if (ok) {
+      alert('✅ Inscripción exitosa')
+    } else {
+      alert('❌ Error al inscribirse')
+    }
+  } catch (e) {
+    alert('❌ Error inesperado')
+    console.error(e)
+  } finally {
+    inscribiendoId.value = null
+  }
+
 }
 </script>
 
 <template>
-  <div class="container my-4">
-    <h2 class="mb-4">Turnos Disponibles</h2>
+  <div class="container my-5">
+    <h2 class="mb-4 text-center">📅 Turnos Disponibles</h2>
 
-    <div v-if="turnos.length === 0">
-      <p>No hay turnos disponibles.</p>
+    <div v-if="cargando" class="text-center">
+      <div class="spinner-border text-primary" role="status">
+        <span class="visually-hidden">Cargando...</span>
+      </div>
     </div>
 
-    <ul class="list-group">
-      <li
+    <div v-else-if="turnos.length === 0" class="alert alert-info text-center">
+      No hay turnos disponibles por el momento.
+    </div>
+
+    <div class="d-flex flex-column gap-3" v-else>
+      <div
+        class="card flex-row align-items-center justify-content-between px-4 py-3 shadow-sm"
         v-for="t in turnos"
         :key="t.id"
-        class="list-group-item d-flex justify-content-between align-items-center"
       >
-        <div>
-          <strong>{{ t.fecha }} - {{ t.hora }}</strong> con {{ t.profesor }}<br />
-          Cupo máximo: {{ t.cupo_max }}
+        <div class="d-flex align-items-center flex-grow-1">
+          <div class="me-4 text-center" style="min-width: 140px;">
+            <h5 class="mb-1">{{ t.fecha }}</h5>
+            <small class="text-muted">{{ t.hora }}</small>
+          </div>
+
+          <div class="me-4">
+            <strong>Profesor:</strong> {{ t.profesor }}
+          </div>
+
+          <div>
+            <strong>Cupo máx.:</strong> {{ t.cupo_max }}
+          </div>
         </div>
-        <button class="btn btn-primary" @click="inscribirse(t.id)">
-          Inscribirme
+
+        <button
+          class="btn btn-outline-primary"
+          :disabled="inscribiendoId === t.id"
+          @click="inscribirse(t.id)"
+        >
+          {{ inscribiendoId === t.id ? 'Inscribiendo...' : 'Inscribirme' }}
         </button>
-      </li>
-    </ul>
+      </div>
+    </div>
   </div>
 </template>
+
