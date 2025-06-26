@@ -15,8 +15,8 @@ const logout = () => {
 </script>
 
 <template>
-  <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-    <div class="container-fluid">
+  <nav class="navbar navbar-expand-lg">
+    <div class="container-fluid align-items-center contenidoNav">
       <router-link class="navbar-brand" to="/">PilApp</router-link>
 
       <button
@@ -53,7 +53,35 @@ const logout = () => {
 </template>
 
 <style scoped>
-.navbar {
-  margin-bottom: 1rem;
+nav .nav-link {
+  color: pu;
 }
+
+
+nav{
+  background-color: var(--gris-claro);
+  min-height: 60px;
+  display: flex;
+  align-items: center;
+}
+
+.navbar-brand {
+  margin: 0 1rem;
+  font-size: 1.5rem; 
+  align-items: center;
+  color: var(--violeta-principal);
+}
+
+.contenidoNav{
+  display: flex;
+  justify-content: space-between;
+  color: var(--violeta-principal);
+}
+
+li{
+  color: var(--violeta-principal);
+}
+
+
+
 </style>
