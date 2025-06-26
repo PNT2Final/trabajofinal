@@ -64,7 +64,7 @@ const guardar = async () => {
 
     router.push('/admin')
   } catch (e) {
-    alert('❌ Error al guardar el turno'+e.message)
+    alert('❌ Error al guardar el turno')
     console.error(e)
   }
 }
