@@ -9,6 +9,7 @@ const router = useRouter()
 const userStore = useUserStore()
 
 const turno = ref({
+  id: null,
   fecha: '',
   hora: '',
   profesor: '',
@@ -23,6 +24,7 @@ onMounted(async () => {
   if (id) {
     esEdicion.value = true
     const data = await getById(id)
+     turno.value.id = id
     turno.value.fecha = data.fecha
     turno.value.hora = data.hora
     turno.value.profesor = data.profesor
@@ -62,7 +64,7 @@ const guardar = async () => {
 
     router.push('/admin')
   } catch (e) {
-    alert('❌ Error al guardar el turno')
+    alert('❌ Error al guardar el turno'+e.message)
     console.error(e)
   }
 }
@@ -93,17 +95,12 @@ const guardar = async () => {
         <input type="number" class="form-control" v-model.number="turno.cupo_maximo" required min="1" />
       </div>
 
-      <button
-        type="button"
-        class="btn btn-secondary me-2"
-        @click="alert(`Cupo máximo: ${turno.cupo_maximo}`)"
-      >
-        Ver cupo max
-      </button>
+     
 
       <button type="submit" class="btn btn-primary">
         {{ esEdicion ? 'Actualizar' : 'Crear' }}
       </button>
+
     </form>
   </div>
 </template>
