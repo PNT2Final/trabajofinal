@@ -123,3 +123,16 @@ async function nuevo() {
   </div>
 </template>
 
+
+<style scoped>
+button.nav-link{
+  color: black;
+}
+
+button.nav-link:hover{
+  color: white;
+  font-weight: bold;
+  background-color: var(--primary-purple)
+}
+
+</style scoped>
