@@ -34,10 +34,12 @@ const inscribirse = async (turnoId) => {
         :key="t.id"
         class="list-group-item d-flex justify-content-between align-items-center"
       >
-        <div>
-          <strong>{{ t.fecha }} - {{ t.hora }}</strong> con {{ t.profesor }}<br />
-          Cupo máximo: {{ t.cupo_max }}
+        <div class="text-start w-100">
+          <strong>{{ t.fecha }} - {{ t.hora }}</strong><br />
+          Profesor: {{ t.profesor }}<br />
+          Cupo máximo: <strong>{{ t.cupo_maximo }}</strong>
         </div>
+
         <button class="btn btn-primary" @click="inscribirse(t.id)">
           Inscribirme
         </button>
