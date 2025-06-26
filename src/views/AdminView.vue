@@ -40,16 +40,14 @@ const eliminar = async (id) => {
   }
 }
 
-
-async function editar(id) {
-   router.push(`/${id}/editar`);
+function editar(id) {
+  router.push(`/${id}/editar`)
 }
 
-async function nuevo() {
-   router.push(`/nuevo`);
+function nuevo() {
+  router.push(`/nuevo`)
 }
 </script>
-
 
 <template>
   <div class="container mt-4">
@@ -68,6 +66,7 @@ async function nuevo() {
     </ul>
 
     <div class="mt-4">
+      <!-- USUARIOS -->
       <div v-if="tabActual === 'usuarios'">
         <h4>Usuarios</h4>
         <table class="table table-striped table-bordered">
@@ -83,37 +82,50 @@ async function nuevo() {
         </table>
       </div>
 
+      <!-- TURNOS -->
       <div v-if="tabActual === 'turnos'">
         <h4>Turnos</h4>
         <table class="table table-striped table-bordered">
           <thead class="table-light">
-            <tr><th>Fecha</th><th>Hora</th><th>Profesor</th><th>Cupo Máximo</th></tr>
+            <tr><th>Fecha</th><th>Hora</th><th>Profesor</th><th>Cupo Máximo</th><th>Acciones</th></tr>
           </thead>
           <tbody>
             <tr v-for="t in turnos" :key="t.id">
               <td>{{ t.fecha }}</td>
-              {{ console.log("turno ",t) }}
               <td>{{ t.hora }}</td>
               <td>{{ t.profesor }}</td>
               <td>{{ t.cupo_maximo }}</td>
-              <td><button class="btn" @click="editar(t.id)"> Editar</button> </td>
-              <td><button class="btn" @click="eliminar(t.id)"> Eliminar</button> </td>
+              <td>
+                <button class="btn btn-sm btn-warning me-2" @click="editar(t.id)">Editar</button>
+                <button class="btn btn-sm btn-danger" @click="eliminar(t.id)">Eliminar</button>
+              </td>
             </tr>
           </tbody>
         </table>
-        <button class="btn" @click="nuevo()">Añadir una nueva sesion</button>
+        <button class="btn btn-success mt-3" @click="nuevo()">➕ Añadir nueva sesión</button>
       </div>
 
+      <!-- INSCRIPCIONES -->
       <div v-if="tabActual === 'inscripciones'">
         <h4>Inscripciones</h4>
         <table class="table table-striped table-bordered">
           <thead class="table-light">
-            <tr><th>Usuario ID</th><th>Turno ID</th><th>Fecha de inscripción</th></tr>
+            <tr>
+              <th>Usuario</th>
+              <th>Email</th>
+              <th>Fecha del Turno</th>
+              <th>Hora</th>
+              <th>Profesor</th>
+              <th>Fecha de inscripción</th>
+            </tr>
           </thead>
           <tbody>
             <tr v-for="i in inscripciones" :key="i.id">
-              <td>{{ i.usuario_id }}</td>
-              <td>{{ i.turno_id }}</td>
+              <td>{{ i.usuarios?.nombre || 'Desconocido' }}</td>
+              <td>{{ i.usuarios?.email || 'No disponible' }}</td>
+              <td>{{ i.turnos?.fecha || 'Sin datos' }}</td>
+              <td>{{ i.turnos?.hora || '-' }}</td>
+              <td>{{ i.turnos?.profesor || '-' }}</td>
               <td>{{ new Date(i.fecha_inscripcion).toLocaleString() }}</td>
             </tr>
           </tbody>
@@ -122,4 +134,3 @@ async function nuevo() {
     </div>
   </div>
 </template>
-

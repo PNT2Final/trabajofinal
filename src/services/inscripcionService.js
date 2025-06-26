@@ -12,6 +12,17 @@ export const inscribirUsuario = async (usuarioId, turnoId) => {
 }
 
 export const getInscripciones = async () => {
-  const { data, error } = await supabase.from('inscripciones').select('*')
-  return error ? [] : data
+    const { data, error } = await supabase
+    .from('inscripciones')
+    .select(`
+      id,
+      fecha_inscripcion,
+      usuario_id,
+      turno_id,
+      usuarios (id, nombre, email),
+      turnos (id, fecha, hora, profesor)
+    `)
+
+  if (error) throw error
+  return data
 }

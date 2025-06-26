@@ -43,7 +43,7 @@ const logout = () => {
 
           <!-- Botón de logout (no se muestra en /login) -->
           <li class="nav-item" v-if="route.path !== '/login'">
-            <button @click="logout" class="btn btn-outline-light ms-2">Cerrar sesión</button>
+            <button @click="logout" class="btn btn-outline-dark ms-2">Cerrar sesión</button>
           </li>
 
         </ul>
