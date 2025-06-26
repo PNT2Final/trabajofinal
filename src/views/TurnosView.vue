@@ -27,14 +27,14 @@ const inscribirse = async (turnoId) => {
     return
   }
 
-  inscribiendoId.value = turnoId
+  inscribiendoId.value = turnoId  
 
   try {
     const ok = await inscribirUsuario(userId, turnoId)
     if (ok) {
       alert('✅ Inscripción exitosa')
     } else {
-      alert('❌ Error al inscribirse')
+      alert('❌ Error al inscribirse, usuario ya inscripto.')
     }
   } catch (e) {
     alert('❌ Error inesperado')
@@ -77,7 +77,7 @@ const inscribirse = async (turnoId) => {
           </div>
 
           <div>
-            <strong>Cupo máx.:</strong> {{ t.cupo_max }}
+            <strong>Cupo máx.:</strong> {{ t.cupo_maximo }}
           </div>
         </div>
 
