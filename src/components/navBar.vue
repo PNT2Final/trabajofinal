@@ -43,7 +43,7 @@ const logout = () => {
 
           <!-- Botón de logout (no se muestra en /login) -->
           <li class="nav-item" v-if="route.path !== '/login'">
-            <button @click="logout" class="btn btn-outline-light ms-2">Cerrar sesión</button>
+            <button @click="logout" class="btn btn-outline-dark ms-2">Cerrar sesión</button>
           </li>
 
         </ul>
@@ -54,7 +54,7 @@ const logout = () => {
 
 <style scoped>
 nav .nav-link {
-  color: pu;
+  color: var(--primary-purple);
 }
 
 
@@ -64,24 +64,6 @@ nav{
   display: flex;
   align-items: center;
 }
-
-.navbar-brand {
-  margin: 0 1rem;
-  font-size: 1.5rem; 
-  align-items: center;
-  color: var(--violeta-principal);
-}
-
-.contenidoNav{
-  display: flex;
-  justify-content: space-between;
-  color: var(--violeta-principal);
-}
-
-li{
-  color: var(--violeta-principal);
-}
-
 
 
 </style>
