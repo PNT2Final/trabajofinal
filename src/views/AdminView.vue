@@ -6,6 +6,7 @@ import { getInscripciones } from '../services/inscripcionService'
 import { useRouter } from 'vue-router'
 import { useUserStore } from '../store/userStorage'
 import { computed } from 'vue'
+import TurnosPorSemana from '../components/TurnosPorSemana.vue'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -93,6 +94,7 @@ const turnosFuturos = computed(() => {
       <!-- TURNOS -->
       <div v-if="tabActual === 'turnos'">
         <h4>Turnos</h4>
+        <TurnosPorSemana class="mb-4" />
         <table class="table table-striped table-bordered">
           <thead class="table-light">
             <tr><th>Fecha</th><th>Hora</th><th>Profesor</th><th>Cupo Máximo</th><th>Acciones</th></tr>
