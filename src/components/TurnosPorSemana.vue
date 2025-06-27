@@ -1,7 +1,7 @@
 <template>
   <div class="p-3 bg-white rounded shadow-sm">
     <h5 class="mb-3" style="font-weight:600;">
-      📅 Turnos por semana
+      📅 Turnos por mes
     </h5>
     <canvas ref="chartCanvas" height="180"></canvas>
   </div>
@@ -16,29 +16,22 @@ Chart.register(ChartDataLabels)
 
 const chartCanvas = ref(null)
 
-function agruparTurnosPorSemana(turnos) {
-  const semanas = {}
+// Agrupa los turnos por mes (ej: 2025-06)
+function agruparTurnosPorMes(turnos) {
+  const meses = {}
   turnos.forEach(turno => {
     const fecha = new Date(turno.fecha)
     const year = fecha.getFullYear()
-    const week = getWeekNumber(fecha)
-    const key = `${year}-S${week}`
-    semanas[key] = (semanas[key] || 0) + 1
+    const month = String(fecha.getMonth() + 1).padStart(2, '0') // Mes en formato 01, 02, ...
+    const key = `${year}-${month}`
+    meses[key] = (meses[key] || 0) + 1
   })
-  return semanas
-}
-
-function getWeekNumber(date) {
-  const d = new Date(Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()))
-  const dayNum = d.getUTCDay() || 7
-  d.setUTCDate(d.getUTCDate() + 4 - dayNum)
-  const yearStart = new Date(Date.UTC(d.getUTCFullYear(),0,1))
-  return Math.ceil((((d - yearStart) / 86400000) + 1)/7)
+  return meses
 }
 
 onMounted(async () => {
   const turnos = await getTurnos()
-  const agrupados = agruparTurnosPorSemana(turnos)
+  const agrupados = agruparTurnosPorMes(turnos)
   const labels = Object.keys(agrupados)
   const data = Object.values(agrupados)
 
@@ -63,7 +56,7 @@ onMounted(async () => {
         legend: { display: false },
         title: {
           display: true,
-          text: 'Turnos por semana',
+          text: 'Turnos por mes',
           font: { size: 20 }
         },
         tooltip: {
@@ -99,7 +92,7 @@ onMounted(async () => {
         },
         y: {
           grid: { display: false },
-          title: { display: true, text: 'Semana', font: { size: 16 } },
+          title: { display: true, text: 'Mes', font: { size: 16 } },
           ticks: { color: '#222', font: { size: 14 } }
         }
       },

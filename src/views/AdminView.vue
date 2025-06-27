@@ -7,6 +7,16 @@ import { useRouter } from 'vue-router'
 import { useUserStore } from '../store/userStorage'
 import { computed } from 'vue'
 import TurnosPorSemana from '../components/TurnosPorSemana.vue'
+import { Bar } from 'vue-chartjs'
+import {
+  Chart as ChartJS,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+  Tooltip,
+  Legend,
+} from 'chart.js'
+import InscripcionesPorMes from '../components/InscripcionesPorMes.vue'
 
 const router = useRouter()
 const userStore = useUserStore()
@@ -94,7 +104,6 @@ const turnosFuturos = computed(() => {
       <!-- TURNOS -->
       <div v-if="tabActual === 'turnos'">
         <h4>Turnos</h4>
-        <TurnosPorSemana class="mb-4" />
         <table class="table table-striped table-bordered">
           <thead class="table-light">
             <tr><th>Fecha</th><th>Hora</th><th>Profesor</th><th>Cupo Máximo</th><th>Acciones</th></tr>
@@ -113,6 +122,7 @@ const turnosFuturos = computed(() => {
           </tbody>
         </table>
         <button class="btn btn-success mt-3" @click="nuevo()">Añadir nueva sesión</button>
+        <TurnosPorSemana class="mb-4" />
       </div>
 
       <!-- INSCRIPCIONES -->
@@ -140,6 +150,7 @@ const turnosFuturos = computed(() => {
             </tr>
           </tbody>
         </table>
+        <InscripcionesPorMes/>
       </div>
     </div>
   </div>
