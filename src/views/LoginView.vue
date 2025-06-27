@@ -1,15 +1,10 @@
-//Pedir email y contraseña al usuario.
-//Llamar al método login() del userStore.
-//Redireccionar al usuario si el login fue exitoso.
-//Mostrar error si falla.
-
 <template>
   <div class="login-container">
     <h2>Iniciar Sesión</h2>
     <form @submit.prevent="handleLogin">
-      <input v-model="email" type="email" placeholder="Email" required />
-      <input v-model="password" type="password" placeholder="Contraseña" required />
-      <button type="submit">Ingresar</button>
+      <input v-model="email" type="email" placeholder="Email" required class="input-group-text"/>
+      <input v-model="password" type="password" placeholder="Contraseña" required class="input-group-text" />
+      <button type="submit" class="btn btn-light">Ingresar</button>
     </form>
     <p v-if="error" class="error">{{ error }}</p>
   </div>
@@ -25,7 +20,6 @@ const error = ref(null)
 
 const router = useRouter()
 const userStore = useUserStore()
-// redireccionamos al usuario si ya está logueado a las vistas correspondientes.
 
 const handleLogin = async () => {
   error.value = null
